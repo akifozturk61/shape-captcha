@@ -4,7 +4,7 @@ import Point from "./Point";
 import Shape from "./Shape";
 
 class Quadrilateral extends Shape {
-  path: number[][] = [];
+  path: Point[] = [];
   protected prng: ReturnType<typeof alea>;
   constructor(
     tl: Point,
@@ -123,7 +123,7 @@ class Quadrilateral extends Shape {
     this.br = points[3];
   }
 
-  setPath(path: number[][]): void {
+  setPath(path: Point[]): void {
     this.path = path;
   }
 
@@ -201,7 +201,7 @@ class Quadrilateral extends Shape {
       xoff += 0.1;
       yoff += 0.1;
 
-      path.push([x, y]);
+      path.push(new Point(x, y));
     }
     return path;
   }

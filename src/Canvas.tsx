@@ -77,12 +77,12 @@ const Canvas = (props: CanvasProps) => {
         const p2 = path[(currentPointsIndex[index] + 1) % path.length];
 
         //Calculate the direction vector from p1 to p2
-        const dir = new Point(p2[0] - p1[0], p2[1] - p1[1]);
+        const dir = new Point(p2.getX() - p1.getX(), p2.getY() - p1.getY());
 
         //Calculate the next centroid by moving along the direction vector
         const nextCentroid = new Point(
-          p1[0] + dir.getX() * currentProgress[index],
-          p1[1] + dir.getY() * currentProgress[index]
+          p1.getX() + dir.getX() * currentProgress[index],
+          p1.getY() + dir.getY() * currentProgress[index]
         );
 
         //Draw the shape from its new centroid
