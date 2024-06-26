@@ -14,7 +14,7 @@ function EndGame() {
   });
 
   const resetChallenge = () => {
-    navigate("/");
+    navigate("/startGame");
   };
 
   return (
