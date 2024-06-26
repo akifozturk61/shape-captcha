@@ -1,4 +1,5 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Point from "./Point";
 import Quadrilateral from "./ShapeQuadrilateral";
 
@@ -7,13 +8,46 @@ interface CanvasProps {
   score: number;
   width: number;
   height: number;
+  incrementscore: (increment: number) => void;
 }
 
 const Canvas = (props: CanvasProps) => {
-  const score = 0;
+  const navigate = useNavigate();
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const animationFrameIdRef = useRef<number | null>(null);
   const shapesRef = useRef<Quadrilateral[]>([]);
-  const colorRef = useRef<string>("");
+  const [mousePositions, setMousePositions] = useState<number[][]>([]);
+  const scoreRef = useRef(props.score);
+  shapesRef.current = props.shapes;
+
+  const handleMouseDown = (event: React.MouseEvent) => {
+    const rect = canvasRef.current!.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+
+    for (const shape of shapesRef.current) {
+      if (shape.isPointInsideShape(new Point(x, y))) {
+        //TODO remove hardcarded shape in first position of array find another way to identify it
+
+        if (shape == shapesRef.current[0]) {
+          props.incrementscore(1);
+          scoreRef.current = props.score;
+        } else {
+          props.incrementscore(3);
+          scoreRef.current = props.score;
+        }
+      }
+    }
+
+    //Save mouse position
+    setMousePositions([...mousePositions, [x, y]]);
+
+    if (props.score >= 1000) {
+      console.log(mousePositions);
+      sessionStorage.setItem("mousePositions", JSON.stringify(mousePositions));
+      navigate(`/endGame`);
+    }
+  };
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -27,15 +61,18 @@ const Canvas = (props: CanvasProps) => {
     const speed = 0.01;
 
     const animateShapes = () => {
+      if (scoreRef.current >= 1000) {
+        if (animationFrameIdRef.current != null) {
+          cancelAnimationFrame(animationFrameIdRef.current);
+        }
+        return;
+      }
+
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       props.shapes.forEach((shape, index) => {
         //Update centroid to the next point in the path
         const path = shape.getPath();
-        // const nextPointIndex = (currentPointsIndex[index] + 1) % path.length;
-        // shape.setCentroid(
-        //   new Point(path[nextPointIndex][0], path[nextPointIndex][1])
-        // );
         const p1 = path[currentPointsIndex[index]];
         const p2 = path[(currentPointsIndex[index] + 1) % path.length];
 
@@ -61,12 +98,18 @@ const Canvas = (props: CanvasProps) => {
         }
       });
 
-      requestAnimationFrame(animateShapes);
+      animationFrameIdRef.current = requestAnimationFrame(animateShapes);
     };
 
     animateShapes();
-  }, [props.shapes, props.score]);
-  return <canvas ref={canvasRef} {...props} />;
+
+    return () => {
+      if (animationFrameIdRef.current != null) {
+        cancelAnimationFrame(animationFrameIdRef.current);
+      }
+    };
+  }, [props.shapes]);
+  return <canvas ref={canvasRef} {...props} onMouseMove={handleMouseDown} />;
 };
 
 export default Canvas;

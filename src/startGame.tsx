@@ -28,10 +28,8 @@ function StartGame() {
         const seed =
           canvasId + Math.floor(Math.random() * 100000000).toString();
         // TODO
-        console.log(seed);
 
         shape = new Rectangle(canvas.width, canvas.height, seed);
-        // console.log(seed);
         shape = shape.getRandomRectangle();
         shape.setRandomColor();
         shape.setCentroid(new Point(canvas.width / 2, canvas.height / 2));
@@ -67,7 +65,7 @@ function StartGame() {
     <div>
       <div className="flex flex-row justify-center mb-10">
         <h1 className="mt-10 text-2xl font-extrabold">
-          Pick a shape to follow (easy mode)
+          Pick a shape to follow
         </h1>
       </div>
       <div className="flex flex-column justify-center">

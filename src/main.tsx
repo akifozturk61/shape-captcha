@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import App from "./App.tsx";
+import EndGame from "./EndGame.tsx";
 import "./index.css";
 import StartGame from "./startGame.tsx";
 
@@ -13,6 +14,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <Routes>
         <Route path="/" element={<StartGame />} />
         <Route path="/app" element={<App />} />
+        <Route path="/endGame" element={<EndGame />} />
       </Routes>
     </Router>
   </React.StrictMode>

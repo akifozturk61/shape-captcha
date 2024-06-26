@@ -276,6 +276,18 @@ class Quadrilateral extends Shape {
     ctx.stroke();
   }
 
+  drawFromArray(ctx: CanvasRenderingContext2D, points: number[][]) {
+    ctx.beginPath();
+    ctx.moveTo(points[0][0], points[0][1]);
+    for (let i = 1; i < points.length; i++) {
+      ctx.lineTo(points[i][0], points[i][1]);
+    }
+    ctx.closePath();
+    ctx.fillStyle = this.color;
+    ctx.fill();
+    ctx.stroke();
+  }
+
   drawFromCentroid(ctx: CanvasRenderingContext2D): void {
     ctx.save();
 
