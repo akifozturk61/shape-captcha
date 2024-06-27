@@ -30,9 +30,13 @@ class Rectangle extends Quadrilateral {
     );
   }
 
-  setRandomSize() {
-    this.width = this.prng() * 100 + 50;
-    this.height = this.prng() * 100 + 50;
+  setRandomSize(min: number, max: number) {
+    const newWidth = this.prng() * (max - min) + min;
+    const newHeight = this.prng() * (max - min) + min;
+    this.getPoints()[1].setX(newWidth);
+    this.getPoints()[2].setX(newWidth);
+    this.getPoints()[2].setY(newHeight);
+    this.getPoints()[3].setY(newHeight);
   }
 }
 

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Canvas from "./Canvas";
 import Point from "./Point";
 import Quadrilateral from "./ShapeQuadrilateral";
+import Rectangle from "./ShapeRectangle";
 import "./index.css";
 
 function App() {
@@ -47,6 +48,17 @@ function App() {
     shapes.forEach((shape) => {
       shape.setPath(shape.genRanPath(100, canvasWidth, canvasHeight));
     });
+
+    //Create obstacle
+    const obstacle = new Rectangle(10, 10, shapeData.seed);
+    obstacle.setRandomSize(0.2 * canvasWidth, 0.5 * canvasHeight);
+
+    const fixedCentroid = obstacle.genRanCentroid(canvasHeight, canvasWidth);
+    obstacle.setPath([fixedCentroid]);
+    obstacle.setCentroid(fixedCentroid);
+    obstacle.setColor("black");
+    shapes.push(obstacle);
+
     setShapes(shapes);
   }, []);
 

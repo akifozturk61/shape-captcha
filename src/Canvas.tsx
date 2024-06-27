@@ -30,10 +30,10 @@ const Canvas = (props: CanvasProps) => {
         //TODO remove hardcarded shape in first position of array find another way to identify it
 
         if (shape == shapesRef.current[0]) {
-          props.incrementscore(1);
+          props.incrementscore(3);
           scoreRef.current = props.score;
         } else {
-          props.incrementscore(3);
+          props.incrementscore(1);
           scoreRef.current = props.score;
         }
       }
@@ -42,7 +42,7 @@ const Canvas = (props: CanvasProps) => {
     //Save mouse position
     setMousePositions([...mousePositions, [x, y]]);
 
-    if (props.score >= 100) {
+    if (props.score >= 1000) {
       sessionStorage.setItem("mousePositions", JSON.stringify(mousePositions));
       navigate(`/endGame`);
     }
