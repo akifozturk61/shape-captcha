@@ -6,29 +6,33 @@ import Rectangle from "./ShapeRectangle";
 import "./index.css";
 
 function App() {
-  // const [refresh, setRefresh] = useState(false);
   const [score, setScore] = useState(0);
   const [seed, setSeed] = useState("");
-  // const navigate = useNavigate();
-  const canvasWidth = 1000;
-  const canvasHeight = 600;
+  const [canvasSize, setCanvasSize] = useState({
+    width: window.innerWidth * 0.8,
+    height: window.innerHeight * 0.8,
+  });
+  // const canvasWidth = 1000;
+  // const canvasHeight = 600;
   const [shapes, setShapes] = useState<Quadrilateral[]>([]);
 
-  // const resetChallenge = () => {
-  //   setRefresh(!refresh);
-  //   setScore(0);
-  //   navigate("/");
-  // };
+  useEffect(() => {
+    const handleResize = () => {
+      setCanvasSize({
+        width: window.innerWidth * 0.8,
+        height: window.innerHeight * 0.8,
+      });
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     const shapeData = JSON.parse(sessionStorage.getItem("shapeChoise")!);
     if (shapeData && shapeData.seed) {
       setSeed(shapeData.seed);
     }
-    // const prng = alea();
-    // prng.importState(shapeData.prng);
-    // console.log("prng after importState:", prng());
-
     const shape = new Quadrilateral(
       new Point(shapeData.point1x, shapeData.point1y),
       new Point(shapeData.point2x, shapeData.point2y),
@@ -46,21 +50,24 @@ function App() {
       shapes.push(shape.genRanVariation());
     }
     shapes.forEach((shape) => {
-      shape.setPath(shape.genRanPath(100, canvasWidth, canvasHeight));
+      shape.setPath(shape.genRanPath(100, canvasSize.width, canvasSize.height));
     });
 
     //Create obstacle
     const obstacle = new Rectangle(10, 10, shapeData.seed);
-    obstacle.setRandomSize(0.2 * canvasWidth, 0.5 * canvasHeight);
+    obstacle.setRandomSize(0.2 * canvasSize.width, 0.5 * canvasSize.height);
 
-    const fixedCentroid = obstacle.genRanCentroid(canvasHeight, canvasWidth);
+    const fixedCentroid = obstacle.genRanCentroid(
+      canvasSize.height,
+      canvasSize.width
+    );
     obstacle.setPath([fixedCentroid]);
     obstacle.setCentroid(fixedCentroid);
     obstacle.setColor("black");
     shapes.push(obstacle);
 
     setShapes(shapes);
-  }, []);
+  }, [canvasSize.width, canvasSize.height]);
 
   return (
     <div className="flex flex-col justify-center items-center">
@@ -69,13 +76,13 @@ function App() {
       <h2 className="mt-5 text-l font-bold">Score: {score}</h2>
       <div
         className="border border-solid border-black mt-10 mb-10"
-        style={{ width: canvasWidth, height: canvasHeight }}
+        style={{ width: canvasSize.width, height: canvasSize.height }}
       >
         <Canvas
           shapes={shapes}
           score={score}
-          width={canvasWidth}
-          height={canvasHeight}
+          width={canvasSize.width}
+          height={canvasSize.height}
           incrementscore={(increment: number) => setScore(score + increment)}
         />
       </div>
