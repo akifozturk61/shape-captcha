@@ -42,7 +42,7 @@ const Canvas = (props: CanvasProps) => {
     //Save mouse position
     setMousePositions([...mousePositions, [x, y]]);
 
-    if (props.score >= 1000) {
+    if (props.score >= 100) {
       console.log(mousePositions);
       sessionStorage.setItem("mousePositions", JSON.stringify(mousePositions));
       navigate(`/endGame`);

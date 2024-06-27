@@ -15,9 +15,9 @@ const Agreement: React.FC = () => {
 
             <p className="mb-2">
               You are being invited to participate in a research study titled
-              [ShapeCAPTCHA]. This study is being done by [Akif Ozturk], a
-              Masters student from the TU Delft. This research is self-funded
-              and does not involve any third-party funding bodies.
+              "ShapeCAPTCHA". This study is being done by Akif Ozturk, a Masters
+              student from the TU Delft. This research is self-funded and does
+              not involve any third-party funding bodies.
             </p>
             <p className="mb-2">
               The purpose of this research study is to create a CAPTCHA that is
