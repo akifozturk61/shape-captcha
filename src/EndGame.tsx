@@ -5,6 +5,9 @@ import supabase from "./config/supabaseClient";
 function EndGame() {
   const navigate = useNavigate();
 
+  const isMobile = () =>
+    /Mobile|Android|Tablet|iPad|iPhone/i.test(navigator.userAgent);
+
   useEffect(() => {
     // Retrieve all the shapes from the session storage
     const shape = JSON.parse(sessionStorage.getItem("shapeChoise")!);
@@ -15,7 +18,13 @@ function EndGame() {
     const insertData = async () => {
       const { data, error } = await supabase
         .from("MouseMovement")
-        .insert([{ seed: seed, mouseMovement: mousePos }]);
+        .insert([
+          {
+            seed: seed,
+            mouseMovement: mousePos,
+            device: isMobile() ? "mobile" : "desktop",
+          },
+        ]);
       if (error) {
         console.error("Error inserting data: ", error);
       }
