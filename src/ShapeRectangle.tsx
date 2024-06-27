@@ -24,8 +24,8 @@ class Rectangle extends Quadrilateral {
 
   getRandomRectangle() {
     return new Rectangle(
-      this.prng() * 100 + 50,
-      this.prng() * 100 + 50,
+      this.prng() * +this.width,
+      this.prng() * +this.height,
       this.seed
     );
   }

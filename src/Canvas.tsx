@@ -20,6 +20,35 @@ const Canvas = (props: CanvasProps) => {
   const scoreRef = useRef(props.score);
   shapesRef.current = props.shapes;
 
+  const handleTouchMove = (event: React.TouchEvent) => {
+    const touch = event.touches[0];
+    const rect = canvasRef.current!.getBoundingClientRect();
+    const x = touch.clientX - rect.left;
+    const y = touch.clientY - rect.top;
+
+    for (const shape of shapesRef.current.slice(0, -1)) {
+      if (shape.isPointInsideShape(new Point(x, y))) {
+        //TODO remove hardcarded shape in first position of array find another way to identify it
+
+        if (shape == shapesRef.current[0]) {
+          props.incrementscore(3);
+          scoreRef.current = props.score;
+        } else {
+          props.incrementscore(1);
+          scoreRef.current = props.score;
+        }
+      }
+    }
+
+    setMousePositions([...mousePositions, [x, y]]);
+
+    if (props.score >= 1000) {
+      console.log("SEND TOUCH DATA:", mousePositions);
+      sessionStorage.setItem("mousePositions", JSON.stringify(mousePositions));
+      navigate(`/endGame`);
+    }
+  };
+
   const handleMouseDown = (event: React.MouseEvent) => {
     const rect = canvasRef.current!.getBoundingClientRect();
     const x = event.clientX - rect.left;
@@ -43,6 +72,8 @@ const Canvas = (props: CanvasProps) => {
     setMousePositions([...mousePositions, [x, y]]);
 
     if (props.score >= 1000) {
+      console.log("SEND MOUSE DATA:", mousePositions);
+
       sessionStorage.setItem("mousePositions", JSON.stringify(mousePositions));
       navigate(`/endGame`);
     }
@@ -50,6 +81,19 @@ const Canvas = (props: CanvasProps) => {
 
   useEffect(() => {
     const canvas = canvasRef.current;
+    const preventTouchScroll = (event: TouchEvent) => {
+      event.preventDefault();
+    };
+
+    if (canvas) {
+      canvas.addEventListener("touchstart", preventTouchScroll, {
+        passive: false,
+      });
+      canvas.addEventListener("touchmove", preventTouchScroll, {
+        passive: false,
+      });
+    }
+
     const ctx = canvas?.getContext("2d");
     if (!ctx || !canvas) {
       return;
@@ -103,12 +147,22 @@ const Canvas = (props: CanvasProps) => {
     animateShapes();
 
     return () => {
+      canvas.removeEventListener("touchstart", preventTouchScroll);
+      canvas.removeEventListener("touchmove", preventTouchScroll);
+
       if (animationFrameIdRef.current != null) {
         cancelAnimationFrame(animationFrameIdRef.current);
       }
     };
   }, [props.shapes]);
-  return <canvas ref={canvasRef} {...props} onMouseMove={handleMouseDown} />;
+  return (
+    <canvas
+      ref={canvasRef}
+      {...props}
+      onMouseMove={handleMouseDown}
+      onTouchMove={handleTouchMove}
+    />
+  );
 };
 
 export default Canvas;

@@ -8,8 +8,20 @@ function StartGame() {
   const navigate = useNavigate();
   const [shapes, setShapes] = useState<Quadrilateral[]>([]);
   const [refreshKey, setRefreshKey] = useState(0);
+  const [flexDirection, setFlexDirection] = useState("flex-col");
+  const [canvasSize, setCanvasSize] = useState(window.innerWidth * 0.2);
+  const isMobile = () =>
+    /Mobile|Android|Tablet|iPad|iPhone/i.test(navigator.userAgent);
 
   useEffect(() => {
+    const handleResize = () => {
+      setCanvasSize(window.innerWidth * 0.2);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    setFlexDirection(isMobile() ? "flex-col" : "flex-row");
+
     const rects: Quadrilateral[] = [];
     [1, 2, 3]
       .map((canvasId) => {
@@ -21,7 +33,7 @@ function StartGame() {
         if (!ctx) {
           return null;
         }
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.clearRect(0, 0, canvasSize, canvasSize);
         canvas.style.border = "1px solid black";
 
         // TODO: SET UNIQUE SEED FOR EACH SHAPE
@@ -29,10 +41,10 @@ function StartGame() {
           canvasId + Math.floor(Math.random() * 100000000).toString();
         // TODO
 
-        shape = new Rectangle(canvas.width, canvas.height, seed);
+        shape = new Rectangle(canvasSize, canvasSize, seed);
         shape = shape.getRandomRectangle();
         shape.setRandomColor();
-        shape.setCentroid(new Point(canvas.width / 2, canvas.height / 2));
+        shape.setCentroid(new Point(canvasSize / 2, canvasSize / 2));
         shape.drawFromCentroid(ctx);
         rects.push(shape);
         return shape;
@@ -40,7 +52,9 @@ function StartGame() {
       .filter((shape) => shape !== null) as Rectangle[];
 
     setShapes(rects);
-  }, [refreshKey]);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, [refreshKey, canvasSize]);
 
   const handleShapeClick = (index: number) => {
     const shape = shapes[index];
@@ -62,21 +76,21 @@ function StartGame() {
   };
 
   return (
-    <div>
+    <div className="flex flex-col items-center mb-10">
       <div className="flex flex-row justify-center mb-10">
         <h1 className="mt-10 text-2xl font-extrabold">
           Pick a shape to follow
         </h1>
       </div>
-      <div className="flex flex-column justify-center">
+      <div className={`flex ${flexDirection} justify-center`}>
         <button className="mr-5" onClick={() => handleShapeClick(0)}>
-          <canvas id="1" width="300" height="300"></canvas>
+          <canvas id="1" width={canvasSize} height={canvasSize}></canvas>
         </button>
         <button className="mr-5" onClick={() => handleShapeClick(1)}>
-          <canvas id="2" width="300" height="300"></canvas>
+          <canvas id="2" width={canvasSize} height={canvasSize}></canvas>
         </button>
         <button className="mr-5" onClick={() => handleShapeClick(2)}>
-          <canvas id="3" width="300" height="300"></canvas>
+          <canvas id="3" width={canvasSize} height={canvasSize}></canvas>
         </button>
       </div>
 

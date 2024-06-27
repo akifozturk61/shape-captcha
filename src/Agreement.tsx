@@ -62,9 +62,9 @@ const Agreement: React.FC = () => {
 
             <p className="mb-2">
               There are no known physical or emotional risks associated with
-              this study. In terms of reputational risks, since we are not
-              collecting any personally identifiable information, the risk is
-              minimal.
+              this study. In terms of reputational risks the risk is minimal,
+              since we are not collecting any personally identifiable
+              information.
             </p>
             <p className="mb-2">
               Your participation in this study is entirely voluntary and you can

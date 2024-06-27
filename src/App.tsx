@@ -12,15 +12,18 @@ function App() {
     width: window.innerWidth * 0.8,
     height: window.innerHeight * 0.8,
   });
-  // const canvasWidth = 1000;
-  // const canvasHeight = 600;
   const [shapes, setShapes] = useState<Quadrilateral[]>([]);
+
+  const isMobile = () =>
+    /Mobile|Android|Tablet|iPad|iPhone/i.test(navigator.userAgent);
 
   useEffect(() => {
     const handleResize = () => {
       setCanvasSize({
         width: window.innerWidth * 0.8,
-        height: window.innerHeight * 0.8,
+        height: isMobile()
+          ? window.innerHeight * 0.6
+          : window.innerHeight * 0.8,
       });
     };
 
