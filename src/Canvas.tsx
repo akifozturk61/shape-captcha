@@ -25,7 +25,7 @@ const Canvas = (props: CanvasProps) => {
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
 
-    for (const shape of shapesRef.current) {
+    for (const shape of shapesRef.current.slice(0, -1)) {
       if (shape.isPointInsideShape(new Point(x, y))) {
         //TODO remove hardcarded shape in first position of array find another way to identify it
 
