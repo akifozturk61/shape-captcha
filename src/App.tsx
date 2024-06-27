@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Canvas from "./Canvas";
 import Point from "./Point";
 import Quadrilateral from "./ShapeQuadrilateral";
 import "./index.css";
 
 function App() {
-  const [refresh, setRefresh] = useState(false);
+  // const [refresh, setRefresh] = useState(false);
   const [score, setScore] = useState(0);
   const [seed, setSeed] = useState("");
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const canvasWidth = 1000;
   const canvasHeight = 600;
   const [shapes, setShapes] = useState<Quadrilateral[]>([]);
