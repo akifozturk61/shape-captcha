@@ -75,14 +75,14 @@ const Agreement: React.FC = () => {
             <p className="mb-2">
               If you have any questions or concerns about this study, please
               feel free to contact
-              <p className="text-center">Akif Ozturk at:</p>
-              <a
-                className="text-blue-500 hover:text-blue-700 underline flex justify-center"
-                href="mailto:m.a.ozturk@student.tudelft.nl"
-              >
-                m.a.ozturk@student.tudelft.nl
-              </a>
             </p>
+            <p className="text-center">Akif Ozturk at:</p>
+            <a
+              className="text-blue-500 hover:text-blue-700 underline flex justify-center"
+              href="mailto:m.a.ozturk@student.tudelft.nl"
+            >
+              m.a.ozturk@student.tudelft.nl
+            </a>
           </div>
 
           <div className={boxStyles}>

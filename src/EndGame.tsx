@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import supabase from "./config/supabaseClient";
 
 function EndGame() {
   const navigate = useNavigate();
@@ -7,10 +8,23 @@ function EndGame() {
   useEffect(() => {
     // Retrieve all the shapes from the session storage
     const shape = JSON.parse(sessionStorage.getItem("shapeChoise")!);
-    console.log(shape.seed);
+    const seed = shape.seed;
 
     const mousePos = JSON.parse(sessionStorage.getItem("mousePositions")!);
-    console.log(mousePos);
+
+    const insertData = async () => {
+      const { data, error } = await supabase
+        .from("MouseMovement")
+        .insert([{ seed: seed, mouseMovement: mousePos }]);
+      if (error) {
+        console.error("Error inserting data: ", error);
+      }
+      if (data) {
+        console.log("Data inserted successfully");
+      }
+    };
+
+    insertData();
   });
 
   const resetChallenge = () => {
