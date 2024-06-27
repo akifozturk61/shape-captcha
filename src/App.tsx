@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Canvas from "./Canvas";
@@ -15,11 +14,11 @@ function App() {
   const canvasHeight = 600;
   const [shapes, setShapes] = useState<Quadrilateral[]>([]);
 
-  const resetChallenge = () => {
-    setRefresh(!refresh);
-    setScore(0);
-    navigate("/");
-  };
+  // const resetChallenge = () => {
+  //   setRefresh(!refresh);
+  //   setScore(0);
+  //   navigate("/");
+  // };
 
   useEffect(() => {
     const shapeData = JSON.parse(sessionStorage.getItem("shapeChoise")!);
