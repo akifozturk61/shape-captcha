@@ -49,7 +49,7 @@ function App() {
       shape.setPrng(shapeData.prng);
     }
     const shapes = [shape];
-    for (let i = 0; i <= shape.genRanInt(10); i++) {
+    for (let i = 0; i <= shape.genRanInt(0, 10); i++) {
       shapes.push(shape.genRanVariation());
     }
     shapes.forEach((shape) => {

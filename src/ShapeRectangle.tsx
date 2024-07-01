@@ -23,11 +23,10 @@ class Rectangle extends Quadrilateral {
   }
 
   getRandomRectangle() {
-    return new Rectangle(
-      this.prng() * +this.width,
-      this.prng() * +this.height,
-      this.seed
-    );
+    const newWidth = this.genRanInt(this.width * 0.3, this.width * 0.7);
+    const newHeight = this.genRanInt(this.height * 0.3, this.height * 0.7);
+
+    return new Rectangle(newWidth, newHeight, this.seed);
   }
 
   setRandomSize(min: number, max: number) {

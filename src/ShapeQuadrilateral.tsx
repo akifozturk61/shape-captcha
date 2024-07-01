@@ -179,8 +179,8 @@ class Quadrilateral extends Shape {
     return this.prng() > 0.5;
   }
 
-  genRanInt(range: number) {
-    return Math.floor(this.prng() * range);
+  genRanInt(min: number, max: number) {
+    return Math.floor(this.prng() * (max - min) + min);
   }
 
   genRanFloat(range: number) {
@@ -243,7 +243,7 @@ class Quadrilateral extends Shape {
       points[3],
       this.getCentroid(),
       this.getCurrentColor(),
-      this.getSeed() + this.genRanInt(100)
+      this.getSeed() + this.genRanInt(1, 100)
     );
     variation.setPoints(...points);
     return variation;
