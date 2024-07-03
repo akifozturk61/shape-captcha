@@ -91,8 +91,6 @@ function App() {
     obstacle.setCentroid(fixedCentroid);
     obstacle.setPath([fixedCentroid]);
 
-    console.log(obstacle);
-
     obstacle.setColor("black");
     shapes.push(obstacle);
 
