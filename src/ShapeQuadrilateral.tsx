@@ -246,14 +246,6 @@ class Quadrilateral extends Shape {
     // Adjust canvas dimensions to create new bounds
     const adjustedCanvasWidth = canvasWidth - shapeWidth * 2;
     const adjustedCanvasHeight = canvasHeight - shapeHeight * 2;
-    console.log(this.getWidth(), this.getHeight());
-
-    console.log(
-      shapeWidth,
-      shapeHeight,
-      adjustedCanvasWidth,
-      adjustedCanvasHeight
-    );
 
     return new Point(
       shapeWidth + Math.floor(this.prng() * adjustedCanvasWidth),
