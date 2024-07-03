@@ -101,7 +101,7 @@ function App() {
     <div className="flex flex-col justify-center items-center">
       <h1 className="mt-10 text-2xl font-extrabold">Shape CAPTCHA</h1>
       <h2 className="mt-5 text-l font-bold">Seed: {seed} </h2>
-      <h2 className="mt-5 text-l font-bold">Score: {score}</h2>
+      {/* <h2 className="mt-5 text-l font-bold">Score: {score}</h2> */}
       <div
         className="border border-solid border-black mt-10 mb-10"
         style={{ width: canvasSize.width, height: canvasSize.height }}
