@@ -57,15 +57,42 @@ function App() {
     });
 
     //Create obstacle
-    const obstacle = new Rectangle(10, 10, shapeData.seed);
-    obstacle.setRandomSize(0.2 * canvasSize.width, 0.5 * canvasSize.height);
+    const canvasArea = canvasSize.width * canvasSize.height;
+    const obstacleArea = canvasArea * 0.2;
+    const sides = Math.sqrt(obstacleArea);
+    let obstacleHeight = sides + 100;
+    let obstacleWidth = sides - 100;
+    const randomValue = shape.genRanInt(50, 200);
 
-    const fixedCentroid = obstacle.genRanCentroid(
-      canvasSize.height,
-      canvasSize.width
+    for (let i = 0; i < shape.genRanInt(1, 3); i++) {
+      if (shape.genRanBool()) {
+        obstacleHeight += randomValue;
+        obstacleWidth - +randomValue;
+      } else {
+        obstacleHeight -= randomValue;
+        obstacleWidth += randomValue;
+      }
+    }
+
+    const obstacle = new Rectangle(
+      obstacleWidth,
+      obstacleHeight,
+      shapeData.seed
     );
-    obstacle.setPath([fixedCentroid]);
+
+    const fixedCentroid = new Point(
+      shape.genRanInt(obstacleWidth / 2, canvasSize.width - obstacleWidth / 2),
+      shape.genRanInt(
+        obstacleHeight / 2,
+        canvasSize.height - obstacleHeight / 2
+      )
+    );
+
     obstacle.setCentroid(fixedCentroid);
+    obstacle.setPath([fixedCentroid]);
+
+    console.log(obstacle);
+
     obstacle.setColor("black");
     shapes.push(obstacle);
 
