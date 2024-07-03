@@ -51,6 +51,38 @@ class Quadrilateral extends Shape {
 
   // Getters
 
+  getWidth() {
+    const points = this.getPoints();
+    let minX = points[0].getX();
+    let maxX = points[0].getX();
+    for (let i = 1; i < points.length; i++) {
+      if (points[i].getX() < minX) {
+        minX = points[i].getX();
+      }
+      if (points[i].getX() > maxX) {
+        maxX = points[i].getX();
+      }
+    }
+
+    return maxX - minX;
+  }
+
+  getHeight() {
+    const points = this.getPoints();
+    let minY = points[0].getY();
+    let maxY = points[0].getY();
+    for (let i = 1; i < points.length; i++) {
+      if (points[i].getY() < minY) {
+        minY = points[i].getY();
+      }
+      if (points[i].getY() > maxY) {
+        maxY = points[i].getY();
+      }
+    }
+
+    return maxY - minY;
+  }
+
   // Get the prng
   getPrngExport() {
     return this.prng.exportState();
@@ -179,8 +211,8 @@ class Quadrilateral extends Shape {
     return this.prng() > 0.5;
   }
 
-  genRanInt(range: number) {
-    return Math.floor(this.prng() * range);
+  genRanInt(min: number, max: number) {
+    return Math.floor(this.prng() * (max - min) + min);
   }
 
   genRanFloat(range: number) {
@@ -208,9 +240,24 @@ class Quadrilateral extends Shape {
 
   // Generate a random centroid
   genRanCentroid(canvasWidth: number, canvasHeight: number) {
+    const shapeWidth = this.getWidth() / 2;
+    const shapeHeight = this.getHeight() / 2;
+
+    // Adjust canvas dimensions to create new bounds
+    const adjustedCanvasWidth = canvasWidth - shapeWidth * 2;
+    const adjustedCanvasHeight = canvasHeight - shapeHeight * 2;
+    console.log(this.getWidth(), this.getHeight());
+
+    console.log(
+      shapeWidth,
+      shapeHeight,
+      adjustedCanvasWidth,
+      adjustedCanvasHeight
+    );
+
     return new Point(
-      Math.floor(this.prng() * canvasWidth),
-      Math.floor(this.prng() * canvasHeight)
+      shapeWidth + Math.floor(this.prng() * adjustedCanvasWidth),
+      shapeHeight + Math.floor(this.prng() * adjustedCanvasHeight)
     );
   }
 
@@ -243,7 +290,7 @@ class Quadrilateral extends Shape {
       points[3],
       this.getCentroid(),
       this.getCurrentColor(),
-      this.getSeed() + this.genRanInt(100)
+      this.getSeed() + this.genRanInt(1, 100)
     );
     variation.setPoints(...points);
     return variation;
