@@ -43,7 +43,6 @@ const Canvas = (props: CanvasProps) => {
     setMousePositions([...mousePositions, [x, y]]);
 
     if (props.score >= 1000) {
-      console.log("SEND TOUCH DATA:", mousePositions);
       sessionStorage.setItem("mousePositions", JSON.stringify(mousePositions));
       navigate(`/endGame`);
     }
@@ -72,8 +71,6 @@ const Canvas = (props: CanvasProps) => {
     setMousePositions([...mousePositions, [x, y]]);
 
     if (props.score >= 1000) {
-      console.log("SEND MOUSE DATA:", mousePositions);
-
       sessionStorage.setItem("mousePositions", JSON.stringify(mousePositions));
       navigate(`/endGame`);
     }

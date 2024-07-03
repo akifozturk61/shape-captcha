@@ -16,15 +16,13 @@ function EndGame() {
     const mousePos = JSON.parse(sessionStorage.getItem("mousePositions")!);
 
     const insertData = async () => {
-      const { data, error } = await supabase
-        .from("MouseMovement")
-        .insert([
-          {
-            seed: seed,
-            mouseMovement: mousePos,
-            device: isMobile() ? "mobile" : "desktop",
-          },
-        ]);
+      const { data, error } = await supabase.from("MouseMovement").insert([
+        {
+          seed: seed,
+          mouseMovement: mousePos,
+          device: isMobile() ? "mobile" : "desktop",
+        },
+      ]);
       if (error) {
         console.error("Error inserting data: ", error);
       }
