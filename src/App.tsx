@@ -19,9 +19,11 @@ function App() {
     /Mobile|Android|Tablet|iPad|iPhone/i.test(navigator.userAgent);
 
   useEffect(() => {
-    if (score === 1000) {
+    if (score >= 1000) {
       // Assuming you want to store the time in seconds
       const timeInSeconds = (time / 1000).toFixed(2);
+      console.log("New time", timeInSeconds);
+
       sessionStorage.setItem("timerAtScore1000", timeInSeconds);
     }
   }, [score, time]);
@@ -131,7 +133,7 @@ function App() {
   return (
     <div className="flex flex-col justify-center items-center">
       <h1 className="mt-10 text-2xl font-extrabold">Shape CAPTCHA</h1>
-      {/* <h2 className="mt-5 text-l font-bold">Seed: {seed} </h2> */}
+      <h2 className="mt-5 text-l font-bold">Score: {score} </h2>
       <h2 className="mt-5 text-l font-bold">
         Timer: {displayTimeInSeconds(time)}
       </h2>
