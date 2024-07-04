@@ -24,9 +24,9 @@ function StartGame() {
 
     if (isMobile()) {
       handleMobile();
+    } else {
+      window.addEventListener("resize", handleResize);
     }
-
-    window.addEventListener("resize", handleResize);
 
     setFlexDirection(isMobile() ? "flex-col" : "flex-row");
 
@@ -61,7 +61,11 @@ function StartGame() {
 
     setShapes(rects);
 
-    return () => window.removeEventListener("resize", handleResize);
+    return () => {
+      if (!isMobile()) {
+        window.removeEventListener("resize", handleResize);
+      }
+    };
   }, [refreshKey, canvasSize]);
 
   const handleShapeClick = (index: number) => {
