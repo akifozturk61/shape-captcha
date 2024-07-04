@@ -91,7 +91,9 @@ function App() {
 
     //Create obstacle
     const canvasArea = canvasSize.width * canvasSize.height;
-    const obstacleArea = canvasArea * 0.2;
+
+    const obstacleArea = canvasArea * (isMobile() ? 0.15 : 0.2);
+
     const sides = Math.sqrt(obstacleArea);
     let obstacleHeight = sides + 100;
     let obstacleWidth = sides - 100;

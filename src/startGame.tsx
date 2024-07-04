@@ -14,9 +14,17 @@ function StartGame() {
     /Mobile|Android|Tablet|iPad|iPhone/i.test(navigator.userAgent);
 
   useEffect(() => {
+    const handleMobile = () => {
+      setCanvasSize(window.innerWidth * 0.4);
+    };
+
     const handleResize = () => {
       setCanvasSize(window.innerWidth * 0.2);
     };
+
+    if (isMobile()) {
+      handleMobile();
+    }
 
     window.addEventListener("resize", handleResize);
 
@@ -83,13 +91,13 @@ function StartGame() {
         </h1>
       </div>
       <div className={`flex ${flexDirection} justify-center`}>
-        <button className="mr-5" onClick={() => handleShapeClick(0)}>
+        <button className="mr-5 mb-5" onClick={() => handleShapeClick(0)}>
           <canvas id="1" width={canvasSize} height={canvasSize}></canvas>
         </button>
-        <button className="mr-5" onClick={() => handleShapeClick(1)}>
+        <button className="mr-5 mb-5" onClick={() => handleShapeClick(1)}>
           <canvas id="2" width={canvasSize} height={canvasSize}></canvas>
         </button>
-        <button className="mr-5" onClick={() => handleShapeClick(2)}>
+        <button className="mr-5 mb-5" onClick={() => handleShapeClick(2)}>
           <canvas id="3" width={canvasSize} height={canvasSize}></canvas>
         </button>
       </div>
