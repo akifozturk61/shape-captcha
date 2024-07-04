@@ -7,6 +7,7 @@ function EndGame() {
 
   const isMobile = () =>
     /Mobile|Android|Tablet|iPad|iPhone/i.test(navigator.userAgent);
+  const time = JSON.parse(sessionStorage.getItem("timerAtScore1000")!);
 
   useEffect(() => {
     // Retrieve all the shapes from the session storage
@@ -51,6 +52,9 @@ function EndGame() {
               <p className="mb-2">
                 Thank you for your participation! You have completed the
                 challenge.
+              </p>
+              <p className="mb-2 bg-yellow-200 text-lg p-4 border-2 border-black rounded-md font-bold text-center">
+                Your completion time: {time + "s"}
               </p>
               <p className="mb-2">
                 If you want, you can restart the challenge by clicking the

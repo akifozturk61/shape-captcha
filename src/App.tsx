@@ -8,6 +8,7 @@ import "./index.css";
 function App() {
   const [score, setScore] = useState(0);
   const [seed, setSeed] = useState("");
+  const [time, setTime] = useState(0); // Timer value
   const [canvasSize, setCanvasSize] = useState({
     width: window.innerWidth * 0.8,
     height: window.innerHeight * 0.8,
@@ -16,6 +17,36 @@ function App() {
 
   const isMobile = () =>
     /Mobile|Android|Tablet|iPad|iPhone/i.test(navigator.userAgent);
+
+  useEffect(() => {
+    if (score === 1000) {
+      // Assuming you want to store the time in seconds
+      const timeInSeconds = (time / 1000).toFixed(2);
+      sessionStorage.setItem("timerAtScore1000", timeInSeconds);
+    }
+  }, [score, time]);
+
+  useEffect(() => {
+    const start = performance.now();
+    let frame: number;
+
+    const updateTimer = () => {
+      const now = performance.now();
+      const elapsed = now - start;
+
+      // Update time state here, converting elapsed time from milliseconds to seconds
+      setTime(elapsed);
+
+      frame = requestAnimationFrame(updateTimer);
+    };
+
+    frame = requestAnimationFrame(updateTimer);
+
+    return () => cancelAnimationFrame(frame);
+  }, [seed]);
+
+  const displayTimeInSeconds = (time: number) =>
+    (time / 1000).toFixed(2) + " s";
 
   useEffect(() => {
     const handleResize = () => {
@@ -100,8 +131,10 @@ function App() {
   return (
     <div className="flex flex-col justify-center items-center">
       <h1 className="mt-10 text-2xl font-extrabold">Shape CAPTCHA</h1>
-      <h2 className="mt-5 text-l font-bold">Seed: {seed} </h2>
-      {/* <h2 className="mt-5 text-l font-bold">Score: {score}</h2> */}
+      {/* <h2 className="mt-5 text-l font-bold">Seed: {seed} </h2> */}
+      <h2 className="mt-5 text-l font-bold">
+        Timer: {displayTimeInSeconds(time)}
+      </h2>
       <div
         className="border border-solid border-black mt-10 mb-10"
         style={{ width: canvasSize.width, height: canvasSize.height }}
