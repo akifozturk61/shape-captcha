@@ -233,6 +233,12 @@ class Quadrilateral extends Shape {
       xoff += 0.1;
       yoff += 0.1;
 
+      if (i === 0) {
+        for (let j = 0; j < 5; j++) {
+          path.push(new Point(x, y));
+        }
+      }
+
       path.push(new Point(x, y));
     }
     return path;
