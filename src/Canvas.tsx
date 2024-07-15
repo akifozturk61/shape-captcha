@@ -55,7 +55,7 @@ const Canvas = (props: CanvasProps) => {
 
     for (const shape of shapesRef.current.slice(0, -1)) {
       if (shape.isPointInsideShape(new Point(x, y))) {
-        //TODO remove hardcarded shape in first position of array find another way to identify it
+        //TODO remove hardcoded shape in first position of array find another way to identify it
 
         if (shape == shapesRef.current[0]) {
           props.incrementscore(3);
@@ -116,13 +116,10 @@ const Canvas = (props: CanvasProps) => {
         const p1 = path[currentPointsIndex[index]];
         const p2 = path[(currentPointsIndex[index] + 1) % path.length];
 
-        //Calculate the direction vector from p1 to p2
-        const dir = new Point(p2.getX() - p1.getX(), p2.getY() - p1.getY());
-
-        //Calculate the next centroid by moving along the direction vector
+        // Calculate the next centroid by linearly interpolating between p1 and p2
         const nextCentroid = new Point(
-          p1.getX() + dir.getX() * currentProgress[index],
-          p1.getY() + dir.getY() * currentProgress[index]
+          p1.getX() + (p2.getX() - p1.getX()) * currentProgress[index],
+          p1.getY() + (p2.getY() - p1.getY()) * currentProgress[index]
         );
 
         //Draw the shape from its new centroid
@@ -130,14 +127,13 @@ const Canvas = (props: CanvasProps) => {
         shape.drawFromCentroid(ctx);
 
         //Update the current point index
-        currentProgress[index] += speed;
         if (currentProgress[index] >= 1) {
           currentPointsIndex[index] =
             (currentPointsIndex[index] + 1) % path.length;
           currentProgress[index] = 0;
         }
+        currentProgress[index] += speed;
       });
-
       animationFrameIdRef.current = requestAnimationFrame(animateShapes);
     };
 

@@ -261,20 +261,20 @@ class Quadrilateral extends Shape {
 
   // Generate a random color
   genRanColor() {
-    const r = Math.floor(this.prng() * 256);
-    const g = Math.floor(this.prng() * 256);
-    const b = Math.floor(this.prng() * 256);
+    const r = this.genRanInt(0, 256);
+    const g = this.genRanInt(0, 256);
+    const b = this.genRanInt(0, 256);
     return `rgb(${r}, ${g}, ${b})`;
   }
 
   // Generate a random variation between 1-10 degrees
   genRanVariation() {
-    const radius = Math.floor(this.prng() * 10);
+    const radius = this.genRanInt(0, 10);
     const angle = this.prng() * 2 * Math.PI;
     const points = this.getPoints();
 
     // Pick a random point
-    const point = Math.floor(this.prng() * 4);
+    const point = this.genRanInt(0, 3);
     // Calculate new position of the point
     const newX = points[point].getX() + radius * Math.cos(angle);
     const newY = points[point].getY() + radius * Math.sin(angle);
