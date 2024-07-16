@@ -20,6 +20,7 @@ const Canvas = (props: CanvasProps) => {
   const scoreRef = useRef(props.score);
   shapesRef.current = props.shapes;
 
+  // For mobile touchscreens
   const handleTouchMove = (event: React.TouchEvent) => {
     const touch = event.touches[0];
     const rect = canvasRef.current!.getBoundingClientRect();
@@ -48,6 +49,7 @@ const Canvas = (props: CanvasProps) => {
     }
   };
 
+  // For desktop mouses
   const handleMouseDown = (event: React.MouseEvent) => {
     const rect = canvasRef.current!.getBoundingClientRect();
     const x = event.clientX - rect.left;

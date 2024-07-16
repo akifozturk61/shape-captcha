@@ -22,9 +22,8 @@ function App() {
     if (score >= 1000) {
       // Assuming you want to store the time in seconds
       const timeInSeconds = (time / 1000).toFixed(2);
-      console.log("New time", timeInSeconds);
-
       sessionStorage.setItem("timerAtScore1000", timeInSeconds);
+      sessionStorage.setItem("shapes", JSON.stringify(shapes));
     }
   }, [score, time]);
 
