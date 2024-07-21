@@ -19,6 +19,8 @@ const Canvas = (props: CanvasProps) => {
   const [mousePositions, setMousePositions] = useState<number[][]>([]);
   const scoreRef = useRef(props.score);
   shapesRef.current = props.shapes;
+  const isMobile = () =>
+    /Mobile|Android|Tablet|iPad|iPhone/i.test(navigator.userAgent);
 
   // For mobile touchscreens
   const handleTouchMove = (event: React.TouchEvent) => {
@@ -100,7 +102,7 @@ const Canvas = (props: CanvasProps) => {
 
     const currentPointsIndex = props.shapes.map(() => 0);
     const currentProgress = props.shapes.map(() => 0);
-    const speed = 0.01;
+    const speed = isMobile() ? 0.02 : 0.01;
 
     const animateShapes = () => {
       if (scoreRef.current >= 1000) {
