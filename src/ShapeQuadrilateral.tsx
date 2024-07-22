@@ -288,7 +288,7 @@ class Quadrilateral extends Shape {
       points[3],
       this.getCentroid(),
       this.getCurrentColor(),
-      this.getSeed() + this.genRanInt(1, 100)
+      this.getSeed() + this.genRanInt(1, 1000)
     );
     variation.setPoints(...points);
     return variation;
