@@ -96,14 +96,14 @@ function App() {
     const obstacleArea = canvasArea * (isMobile() ? 0.15 : 0.2);
 
     const sides = Math.sqrt(obstacleArea);
-    let obstacleHeight = sides + 100;
-    let obstacleWidth = sides - 100;
-    const randomValue = shape.genRanInt(50, 200);
+    let obstacleHeight = sides;
+    let obstacleWidth = sides;
+    const randomValue = shape.genRanInt(sides * 0.25, sides * 0.75);
 
     for (let i = 0; i < shape.genRanInt(1, 3); i++) {
       if (shape.genRanBool()) {
         obstacleHeight += randomValue;
-        obstacleWidth - +randomValue;
+        obstacleWidth -= randomValue;
       } else {
         obstacleHeight -= randomValue;
         obstacleWidth += randomValue;
