@@ -228,8 +228,8 @@ class Quadrilateral extends Shape {
     const path = [];
 
     for (let i = 0; i < x; i++) {
-      const x = this.map(noise2d(xoff, 0), -1, 1, 0, canvasWidth);
-      const y = this.map(noise2d(0, yoff), -1, 1, 0, canvasHeight);
+      const x = Math.floor(this.map(noise2d(xoff, 0), -1, 1, 0, canvasWidth));
+      const y = Math.floor(this.map(noise2d(0, yoff), -1, 1, 0, canvasHeight));
       xoff += 0.1;
       yoff += 0.1;
 

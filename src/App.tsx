@@ -111,8 +111,8 @@ function App() {
     }
 
     const obstacle = new Rectangle(
-      obstacleWidth,
-      obstacleHeight,
+      Math.floor(obstacleWidth),
+      Math.floor(obstacleHeight),
       shapeData.seed
     );
 

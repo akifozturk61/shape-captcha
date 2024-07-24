@@ -52,7 +52,9 @@ function StartGame() {
         shape = new Rectangle(canvasSize, canvasSize, seed);
         shape = shape.getRandomRectangle();
         shape.setRandomColor();
-        shape.setCentroid(new Point(canvasSize / 2, canvasSize / 2));
+        shape.setCentroid(
+          new Point(Math.floor(canvasSize / 2), Math.floor(canvasSize / 2))
+        );
         shape.drawFromCentroid(ctx);
         rects.push(shape);
         return shape;
