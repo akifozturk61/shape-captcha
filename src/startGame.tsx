@@ -1,10 +1,36 @@
+import Alea from "alea";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Point from "./Point";
+import Hinge from "./ShapeHinge";
 import Irregular from "./ShapeIrregular";
+import Kite from "./ShapeKite";
+import Parallelogram from "./ShapeParallelogram";
 import Quadrilateral from "./ShapeQuadrilateral";
 import Rectangle from "./ShapeRectangle";
 import Rhombus from "./ShapeRhombus";
+import RightHinge from "./ShapeRightHinge";
+import RightKite from "./ShapeRightKite";
+import Square from "./ShapeSquare";
+
+const shapeOptions = [
+  Square,
+  Rectangle,
+  Rhombus,
+  Parallelogram,
+  RightKite,
+  Kite,
+  RightHinge,
+  Hinge,
+  Irregular,
+];
+
+function getRandomShape(canvasSize: number, seed: string) {
+  const prng = Alea(seed);
+  const randomIndex = Math.floor(prng() * shapeOptions.length);
+  const ShapeClass = shapeOptions[randomIndex];
+  return new ShapeClass(canvasSize, canvasSize, seed);
+}
 
 function StartGame() {
   const navigate = useNavigate();
@@ -38,9 +64,16 @@ function StartGame() {
         // TODO: SET UNIQUE SEED FOR EACH SHAPE
         const seed =
           canvasId + Math.floor(Math.random() * 100000000).toString();
+        const shape = getRandomShape(canvasSize, seed);
+        // const shape = new Square(canvasSize, canvasSize, seed);
         // const shape = new Rectangle(canvasSize, canvasSize, seed);
-        const shape = new Irregular(canvasSize, canvasSize, seed);
+        // const shape = new Irregular(canvasSize, canvasSize, seed);
         // const shape = new Rhombus(canvasSize, canvasSize, seed);
+        // const shape = new Parallelogram(canvasSize, canvasSize, seed);
+        // const shape = new RightHinge(canvasSize, canvasSize, seed);
+        // const shape = new Kite(canvasSize, canvasSize, seed);
+        // const shape = new Hinge(canvasSize, canvasSize, seed);
+        // const shape = new RightKite(canvasSize, canvasSize, seed);
         const canvas = document.getElementById(
           canvasId.toString()
         ) as HTMLCanvasElement;
@@ -71,6 +104,10 @@ function StartGame() {
 
   const handleShapeClick = (index: number) => {
     const shape = shapes[index];
+    const shapeIndex = shapeOptions.findIndex(
+      (ShapeClass) => shape instanceof ShapeClass
+    );
+
     const shapeData = {
       point1x: shape.getPoints()[0].getX(),
       point1y: shape.getPoints()[0].getY(),
@@ -83,6 +120,7 @@ function StartGame() {
       color: shape.getCurrentColor(),
       seed: shape.getSeed(),
       prng: shape.getPrngExport(),
+      shapeDifficulty: shapeIndex,
     };
     sessionStorage.setItem("shapeChoise", JSON.stringify(shapeData));
     navigate(`/app`);
