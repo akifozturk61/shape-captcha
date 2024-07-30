@@ -4,6 +4,7 @@ import Point from "./Point";
 import Irregular from "./ShapeIrregular";
 import Quadrilateral from "./ShapeQuadrilateral";
 import Rectangle from "./ShapeRectangle";
+import Rhombus from "./ShapeRhombus";
 
 function StartGame() {
   const navigate = useNavigate();
@@ -37,9 +38,9 @@ function StartGame() {
         // TODO: SET UNIQUE SEED FOR EACH SHAPE
         const seed =
           canvasId + Math.floor(Math.random() * 100000000).toString();
-        const shape = new Rectangle(canvasSize, canvasSize, seed);
-        // const shape = new Irregular(canvasSize, canvasSize, seed);
-
+        // const shape = new Rectangle(canvasSize, canvasSize, seed);
+        const shape = new Irregular(canvasSize, canvasSize, seed);
+        // const shape = new Rhombus(canvasSize, canvasSize, seed);
         const canvas = document.getElementById(
           canvasId.toString()
         ) as HTMLCanvasElement;

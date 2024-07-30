@@ -3,15 +3,16 @@ import Point from "./Point";
 import Quadrilateral from "./ShapeQuadrilateral";
 
 class Rectangle extends Quadrilateral {
-  constructor(private width: number, private height: number, seed: string) {
+  constructor(canvasWidth: number, canvasHeight: number, seed: string) {
     const prng = Alea(seed);
 
-    const newWidth = Math.floor(
-      prng() * (width * 0.7 - width * 0.3) + width * 0.3
-    );
-    const newHeight = Math.floor(
-      prng() * (height * 0.7 - height * 0.3) + height * 0.3
-    );
+    const minWidth = canvasWidth * 0.4; // Minimum width is half of the canvas width
+    const maxWidth = canvasWidth * 0.8; // Maximum width is the canvas width
+    const minHeight = canvasHeight * 0.4; // Minimum height is half of the canvas height
+    const maxHeight = canvasHeight * 0.8; // Maximum height is the canvas height
+
+    const newWidth = Math.floor(prng() * (maxWidth - minWidth) + minWidth);
+    const newHeight = Math.floor(prng() * (maxHeight - minHeight) + minHeight);
 
     super(
       new Point(0, 0),
@@ -22,21 +23,6 @@ class Rectangle extends Quadrilateral {
       "black",
       seed
     );
-  }
-
-  getWidth(): number {
-    return this.width;
-  }
-
-  getHeight(): number {
-    return this.height;
-  }
-
-  getRandomRectangle() {
-    const newWidth = this.genRanInt(this.width * 0.3, this.width * 0.7);
-    const newHeight = this.genRanInt(this.height * 0.3, this.height * 0.7);
-
-    return new Rectangle(newWidth, newHeight, this.seed);
   }
 }
 

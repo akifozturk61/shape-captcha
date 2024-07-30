@@ -4,11 +4,13 @@ import Quadrilateral from "./ShapeQuadrilateral";
 
 class Irregular extends Quadrilateral {
   constructor(canvasWidth: number, canvasHeight: number, seed: string) {
-    const cx = canvasWidth / 3;
-    const cy = canvasHeight / 3;
-    const radius = Math.min(canvasWidth, canvasHeight) * 0.4; // 25% of the smaller dimension
-    // Generate four random angles and sort them
+    const cx = canvasWidth / 2;
+    const cy = canvasHeight / 2;
     const prng = Alea(seed);
+
+    const minRadius = Math.min(canvasWidth, canvasHeight) * 0.3; // Minimum radius is half of the smaller dimension
+    const maxRadius = Math.min(canvasWidth, canvasHeight) * 0.5; // Maximum radius is the smaller dimension
+    const radius = Math.floor(prng() * (maxRadius - minRadius) + minRadius); // Random radius between minRadius and maxRadius    // Generate four random angles and sort them
     const angles = [prng(), prng(), prng(), prng()]
       .map((a) => a * 2 * Math.PI)
       .sort();
