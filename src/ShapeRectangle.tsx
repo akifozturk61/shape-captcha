@@ -1,13 +1,23 @@
+import Alea from "alea";
 import Point from "./Point";
 import Quadrilateral from "./ShapeQuadrilateral";
 
 class Rectangle extends Quadrilateral {
   constructor(private width: number, private height: number, seed: string) {
+    const prng = Alea(seed);
+
+    const newWidth = Math.floor(
+      prng() * (width * 0.7 - width * 0.3) + width * 0.3
+    );
+    const newHeight = Math.floor(
+      prng() * (height * 0.7 - height * 0.3) + height * 0.3
+    );
+
     super(
       new Point(0, 0),
-      new Point(width, 0),
-      new Point(width, height),
-      new Point(0, height),
+      new Point(newWidth, 0),
+      new Point(newWidth, newHeight),
+      new Point(0, newHeight),
       new Point(0, 0),
       "black",
       seed

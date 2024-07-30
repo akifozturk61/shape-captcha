@@ -225,8 +225,12 @@ class Quadrilateral extends Shape {
     return Math.floor(this.prng() * (max - min) + min);
   }
 
-  genRanFloat(range: number) {
-    return this.prng() * range;
+  genRanFloat(min: number, max: number) {
+    return this.prng() * (max - min) + min;
+  }
+
+  genRandom() {
+    return this.prng();
   }
 
   // Generate a random path

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Point from "./Point";
+import Irregular from "./ShapeIrregular";
 import Quadrilateral from "./ShapeQuadrilateral";
 import Rectangle from "./ShapeRectangle";
 
@@ -33,7 +34,12 @@ function StartGame() {
     const rects: Quadrilateral[] = [];
     [1, 2, 3]
       .map((canvasId) => {
-        let shape: Rectangle;
+        // TODO: SET UNIQUE SEED FOR EACH SHAPE
+        const seed =
+          canvasId + Math.floor(Math.random() * 100000000).toString();
+        const shape = new Rectangle(canvasSize, canvasSize, seed);
+        // const shape = new Irregular(canvasSize, canvasSize, seed);
+
         const canvas = document.getElementById(
           canvasId.toString()
         ) as HTMLCanvasElement;
@@ -43,14 +49,6 @@ function StartGame() {
         }
         ctx.clearRect(0, 0, canvasSize, canvasSize);
         canvas.style.border = "1px solid black";
-
-        // TODO: SET UNIQUE SEED FOR EACH SHAPE
-        const seed =
-          canvasId + Math.floor(Math.random() * 100000000).toString();
-        // TODO
-
-        shape = new Rectangle(canvasSize, canvasSize, seed);
-        shape = shape.getRandomRectangle();
         shape.setRandomColor();
         shape.setCentroid(
           new Point(Math.floor(canvasSize / 2), Math.floor(canvasSize / 2))
