@@ -135,7 +135,15 @@ function App() {
 
   return (
     <div className="flex flex-col justify-center items-center">
-      <h1 className="mt-10 text-2xl font-extrabold">Follow the right shape!</h1>
+      {isMobile() ? (
+        <h1 className="mt-10 text-2xl font-extrabold">
+          Follow the right shape by tracking it with your finger!
+        </h1>
+      ) : (
+        <h1 className="mt-10 text-2xl font-extrabold">
+          Follow the right shape by tracking it with the mouse pointer!
+        </h1>
+      )}
       {/* <h2 className="mt-5 text-l font-bold">Score: {score} </h2> */}
       <h2 className="mt-5 text-l font-bold">
         Timer: {displayTimeInSeconds(time)}

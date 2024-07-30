@@ -157,7 +157,7 @@ const Canvas = (props: CanvasProps) => {
 
     const currentPointsIndex = props.shapes.map(() => 0);
     const currentProgress = props.shapes.map(() => 0);
-    const speed = isMobile() ? 0.02 : 0.01;
+    const speed = isMobile() ? 0.02 : 0.011;
 
     const animateShapes = () => {
       if (scoreRef.current >= 1000) {
