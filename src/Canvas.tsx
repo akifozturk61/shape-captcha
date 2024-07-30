@@ -18,6 +18,10 @@ const Canvas = (props: CanvasProps) => {
   const shapesRef = useRef<Quadrilateral[]>([]);
   const [mousePositions, setMousePositions] = useState<number[][]>([]);
   const scoreRef = useRef(props.score);
+
+  const lastCheckpointRef = useRef<number>(0);
+  const [followingShape, setFollowingShape] = useState<[string, number][]>([]);
+
   shapesRef.current = props.shapes;
   const isMobile = () =>
     /Mobile|Android|Tablet|iPad|iPhone/i.test(navigator.userAgent);
@@ -71,10 +75,61 @@ const Canvas = (props: CanvasProps) => {
       }
     }
 
+    if (scoreRef.current >= lastCheckpointRef.current + 10) {
+      const shapeDistances = [];
+
+      for (const shape of shapesRef.current) {
+        shapeDistances.push([
+          shapesRef.current.indexOf(shape),
+          shape.getDistanceToCentroid(new Point(x, y)),
+        ]);
+      }
+
+      // Get closest shape
+      const closestShape = shapeDistances
+        .slice(0, -1)
+        .reduce((a, b) => (a[1] < b[1] ? a : b));
+
+      // Check if the closest shape is in the object
+      if (
+        shapesRef.current[shapesRef.current.length - 1].isPointInsideShape(
+          new Point(x, y)
+        )
+      ) {
+        if (closestShape[0] == 0) {
+          setFollowingShape([
+            ...followingShape,
+            ["chosenObject", closestShape[1]],
+          ]);
+        } else {
+          setFollowingShape([
+            ...followingShape,
+            ["variationObject", closestShape[1]],
+          ]);
+        }
+      } else {
+        if (closestShape[0] == 0) {
+          setFollowingShape([
+            ...followingShape,
+            ["chosenShape", closestShape[1]],
+          ]);
+        } else {
+          setFollowingShape([
+            ...followingShape,
+            ["variationShape", closestShape[1]],
+          ]);
+        }
+      }
+
+      lastCheckpointRef.current += 10;
+    }
+
     //Save mouse position
     setMousePositions([...mousePositions, [x, y]]);
 
     if (props.score >= 1000) {
+      console.log("before sending:", followingShape);
+      sessionStorage.setItem("followingShape", JSON.stringify(followingShape));
       sessionStorage.setItem("mousePositions", JSON.stringify(mousePositions));
       navigate(`/endGame`);
     }

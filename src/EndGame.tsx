@@ -14,18 +14,16 @@ function EndGame() {
     const shape = JSON.parse(sessionStorage.getItem("shapeChoise")!);
     const seed = shape.seed;
 
-    const mousePos = JSON.parse(sessionStorage.getItem("mousePositions")!);
-
-    const shapeData = JSON.parse(sessionStorage.getItem("shapes")!);
-
+    const followingShape = JSON.parse(
+      sessionStorage.getItem("followingShape")!
+    );
     const insertData = async () => {
       const { data, error } = await supabase.from("Challenge").insert([
         {
           seed: seed,
-          mouseMovement: mousePos,
           device: isMobile() ? "mobile" : "desktop",
-          shapeData: shapeData,
           time: time,
+          shapeData: followingShape,
           label: "human",
         },
       ]);

@@ -108,6 +108,16 @@ class Quadrilateral extends Shape {
     return this.seed;
   }
 
+  getDistanceToCentroid(point: Point) {
+    const centroid = this.getCentroid();
+    return Math.floor(
+      Math.sqrt(
+        Math.pow(point.getX() - centroid.getX(), 2) +
+          Math.pow(point.getY() - centroid.getY(), 2)
+      )
+    );
+  }
+
   // Get the coordinates of the points drawn from the centroid
   getPointsFromCentroid() {
     const newCentroid = this.getCentroid();
