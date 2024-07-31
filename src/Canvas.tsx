@@ -12,6 +12,7 @@ interface CanvasProps {
 }
 
 const Canvas = (props: CanvasProps) => {
+  const finalScore = 5000;
   const navigate = useNavigate();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationFrameIdRef = useRef<number | null>(null);
@@ -27,21 +28,28 @@ const Canvas = (props: CanvasProps) => {
     /Mobile|Android|Tablet|iPad|iPhone/i.test(navigator.userAgent);
 
   const handleShapeInteraction = (x: number, y: number) => {
-    for (const shape of shapesRef.current.slice(0, -1)) {
+    const scoreIncrementChosen = 15;
+    const scoreIncrementVariation = 5;
+    const scoreIncrementObject = 1;
+    // console.log(shapesRef.current);
+    for (const shape of shapesRef.current) {
       if (shape.isPointInsideShape(new Point(x, y))) {
         //TODO remove hardcarded shape in first position of array find another way to identify it
 
         if (shape == shapesRef.current[0]) {
-          props.incrementscore(3);
+          props.incrementscore(scoreIncrementChosen);
+          scoreRef.current = props.score;
+        } else if (shape == shapesRef.current[shapesRef.current.length - 1]) {
+          props.incrementscore(scoreIncrementObject);
           scoreRef.current = props.score;
         } else {
-          props.incrementscore(1);
+          props.incrementscore(scoreIncrementVariation);
           scoreRef.current = props.score;
         }
       }
     }
 
-    if (scoreRef.current >= lastCheckpointRef.current + 10) {
+    if (scoreRef.current >= lastCheckpointRef.current + finalScore / 101) {
       const shapeDistances = [];
 
       for (const shape of shapesRef.current) {
@@ -56,44 +64,64 @@ const Canvas = (props: CanvasProps) => {
         .slice(0, -1)
         .reduce((a, b) => (a[1] < b[1] ? a : b));
 
-      // Check if the closest shape is in the object
+      // Check if the pointer is in object
       if (
         shapesRef.current[shapesRef.current.length - 1].isPointInsideShape(
           new Point(x, y)
         )
       ) {
-        if (closestShape[0] == 0) {
-          setFollowingShape([
-            ...followingShape,
-            ["chosenObject", closestShape[1]],
-          ]);
+        // Check if pointer is in closest shape
+        if (
+          shapesRef.current[closestShape[0]].isPointInsideShape(new Point(x, y))
+        ) {
+          // Check if the closest shape is the chosen shape
+          if (closestShape[0] == 0) {
+            setFollowingShape([
+              ...followingShape,
+              ["chosenObject", closestShape[1]],
+            ]);
+          }
+          // Check if the closest shape is a variation shape
+          else {
+            setFollowingShape([
+              ...followingShape,
+              ["variationObject", closestShape[1]],
+            ]);
+          }
         } else {
-          setFollowingShape([
-            ...followingShape,
-            ["variationObject", closestShape[1]],
-          ]);
+          setFollowingShape([...followingShape, ["Object", closestShape[1]]]);
         }
       } else {
-        if (closestShape[0] == 0) {
-          setFollowingShape([
-            ...followingShape,
-            ["chosenShape", closestShape[1]],
-          ]);
+        // Check if the pointer is in the closest shape
+        if (
+          shapesRef.current[closestShape[0]].isPointInsideShape(new Point(x, y))
+        ) {
+          if (closestShape[0] == 0) {
+            setFollowingShape([
+              ...followingShape,
+              ["chosenShape", closestShape[1]],
+            ]);
+          } else {
+            setFollowingShape([
+              ...followingShape,
+              ["variationShape", closestShape[1]],
+            ]);
+          }
         } else {
           setFollowingShape([
             ...followingShape,
-            ["variationShape", closestShape[1]],
+            ["emptySpace", closestShape[1]],
           ]);
         }
       }
 
-      lastCheckpointRef.current += 10;
+      lastCheckpointRef.current += finalScore / 101;
     }
 
     //Save mouse position
     setMousePositions([...mousePositions, [x, y]]);
 
-    if (props.score >= 1000) {
+    if (props.score >= finalScore) {
       sessionStorage.setItem("followingShape", JSON.stringify(followingShape));
       sessionStorage.setItem("mousePositions", JSON.stringify(mousePositions));
       navigate(`/endGame`);
@@ -142,7 +170,7 @@ const Canvas = (props: CanvasProps) => {
     const speed = isMobile() ? 0.02 : 0.011;
 
     const animateShapes = () => {
-      if (scoreRef.current >= 1000) {
+      if (scoreRef.current >= finalScore) {
         if (animationFrameIdRef.current != null) {
           cancelAnimationFrame(animationFrameIdRef.current);
         }

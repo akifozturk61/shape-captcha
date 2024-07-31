@@ -6,6 +6,7 @@ import Rectangle from "./ShapeRectangle";
 import "./index.css";
 
 function App() {
+  const finalScore = 5000;
   const [score, setScore] = useState(0);
   const [seed, setSeed] = useState("");
   const [time, setTime] = useState(0); // Timer value
@@ -19,7 +20,7 @@ function App() {
     /Mobile|Android|Tablet|iPad|iPhone/i.test(navigator.userAgent);
 
   useEffect(() => {
-    if (score >= 1000) {
+    if (finalScore >= 2000) {
       // Assuming you want to store the time in seconds
       const timeInSeconds = (time / 1000).toFixed(2);
       sessionStorage.setItem("timerAtScore1000", timeInSeconds);
@@ -144,7 +145,7 @@ function App() {
           Follow the right shape by tracking it with the mouse pointer!
         </h1>
       )}
-      {/* <h2 className="mt-5 text-l font-bold">Score: {score} </h2> */}
+      <h2 className="mt-5 text-l font-bold">Score: {score} </h2>
       <h2 className="mt-5 text-l font-bold">
         Timer: {displayTimeInSeconds(time)}
       </h2>

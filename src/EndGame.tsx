@@ -17,6 +17,7 @@ function EndGame() {
     const followingShape = JSON.parse(
       sessionStorage.getItem("followingShape")!
     );
+    console.log(followingShape);
     const insertData = async () => {
       const { data, error } = await supabase.from("Challenge").insert([
         {
