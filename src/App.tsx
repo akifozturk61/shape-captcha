@@ -94,28 +94,12 @@ function App() {
     //Create obstacle
     const canvasArea = canvasSize.width * canvasSize.height;
 
-    const obstacleArea = canvasArea * (isMobile() ? 0.15 : 0.2);
+    const obstacleArea = canvasArea * (isMobile() ? 0.3 : 0.4);
 
-    const sides = Math.sqrt(obstacleArea);
-    let obstacleHeight = sides;
-    let obstacleWidth = sides;
-    const randomValue = shape.genRanInt(sides * 0.25, sides * 0.75);
-
-    for (let i = 0; i < shape.genRanInt(1, 3); i++) {
-      if (shape.genRanBool()) {
-        obstacleHeight += randomValue;
-        obstacleWidth -= randomValue;
-      } else {
-        obstacleHeight -= randomValue;
-        obstacleWidth += randomValue;
-      }
-    }
-
-    const obstacle = new Rectangle(
-      Math.floor(obstacleWidth),
-      Math.floor(obstacleHeight),
-      shapeData.seed
-    );
+    const sides = Math.floor(Math.sqrt(obstacleArea));
+    const obstacle = new Rectangle(sides, sides, shapeData.seed);
+    const obstacleWidth = obstacle.getWidth();
+    const obstacleHeight = obstacle.getHeight();
 
     const fixedCentroid = new Point(
       shape.genRanInt(obstacleWidth / 2, canvasSize.width - obstacleWidth / 2),
