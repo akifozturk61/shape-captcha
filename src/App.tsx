@@ -82,7 +82,7 @@ function App() {
       shape.setPrng(shapeData.prng);
     }
     const shapes = [shape];
-    const amountVariations = shape.genRanInt(1, isMobile() ? 5 : 8);
+    const amountVariations = shape.genRanInt(1, isMobile() ? 3 : 4);
 
     for (let i = 0; i <= amountVariations; i++) {
       shapes.push(shape.genRanVariation());
