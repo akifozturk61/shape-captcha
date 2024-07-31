@@ -26,44 +26,10 @@ const Canvas = (props: CanvasProps) => {
   const isMobile = () =>
     /Mobile|Android|Tablet|iPad|iPhone/i.test(navigator.userAgent);
 
-  // For mobile touchscreens
-  const handleTouchMove = (event: React.TouchEvent) => {
-    const touch = event.touches[0];
-    const rect = canvasRef.current!.getBoundingClientRect();
-    const x = touch.clientX - rect.left;
-    const y = touch.clientY - rect.top;
-
+  const handleShapeInteraction = (x: number, y: number) => {
     for (const shape of shapesRef.current.slice(0, -1)) {
       if (shape.isPointInsideShape(new Point(x, y))) {
         //TODO remove hardcarded shape in first position of array find another way to identify it
-
-        if (shape == shapesRef.current[0]) {
-          props.incrementscore(3);
-          scoreRef.current = props.score;
-        } else {
-          props.incrementscore(1);
-          scoreRef.current = props.score;
-        }
-      }
-    }
-
-    setMousePositions([...mousePositions, [x, y]]);
-
-    if (props.score >= 1000) {
-      sessionStorage.setItem("mousePositions", JSON.stringify(mousePositions));
-      navigate(`/endGame`);
-    }
-  };
-
-  // For desktop mouses
-  const handleMouseDown = (event: React.MouseEvent) => {
-    const rect = canvasRef.current!.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
-
-    for (const shape of shapesRef.current.slice(0, -1)) {
-      if (shape.isPointInsideShape(new Point(x, y))) {
-        //TODO remove hardcoded shape in first position of array find another way to identify it
 
         if (shape == shapesRef.current[0]) {
           props.incrementscore(3);
@@ -128,11 +94,27 @@ const Canvas = (props: CanvasProps) => {
     setMousePositions([...mousePositions, [x, y]]);
 
     if (props.score >= 1000) {
-      console.log("before sending:", followingShape);
       sessionStorage.setItem("followingShape", JSON.stringify(followingShape));
       sessionStorage.setItem("mousePositions", JSON.stringify(mousePositions));
       navigate(`/endGame`);
     }
+  };
+
+  // For mobile touchscreens
+  const handleTouchMove = (event: React.TouchEvent) => {
+    const touch = event.touches[0];
+    const rect = canvasRef.current!.getBoundingClientRect();
+    const x = touch.clientX - rect.left;
+    const y = touch.clientY - rect.top;
+    handleShapeInteraction(x, y);
+  };
+
+  // For desktop mouses
+  const handleMouseDown = (event: React.MouseEvent) => {
+    const rect = canvasRef.current!.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    handleShapeInteraction(x, y);
   };
 
   useEffect(() => {

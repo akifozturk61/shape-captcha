@@ -12,13 +12,11 @@ function EndGame() {
   useEffect(() => {
     // Retrieve all the shapes from the session storage
     const shape = JSON.parse(sessionStorage.getItem("shapeChoise")!);
-    console.log(shape);
     const seed = shape.seed;
 
     const followingShape = JSON.parse(
       sessionStorage.getItem("followingShape")!
     );
-    console.log(shape.difficulty);
     const insertData = async () => {
       const { data, error } = await supabase.from("Challenge").insert([
         {
