@@ -129,7 +129,7 @@ function App() {
           Follow the right shape by tracking it with the mouse pointer!
         </h1>
       )}
-      {/* <h2 className="mt-5 text-l font-bold">Score: {score} </h2> */}
+      <h2 className="mt-5 text-l font-bold">Score: {score} </h2>
       <h2 className="mt-5 text-l font-bold">
         Timer: {displayTimeInSeconds(time)}
       </h2>
