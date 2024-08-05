@@ -39,12 +39,15 @@ const Canvas = (props: CanvasProps) => {
         if (shape == shapesRef.current[0]) {
           props.incrementscore(scoreIncrementChosen);
           scoreRef.current = props.score;
+          break;
         } else if (shape == shapesRef.current[shapesRef.current.length - 1]) {
           props.incrementscore(scoreIncrementObject);
           scoreRef.current = props.score;
+          break;
         } else {
           props.incrementscore(scoreIncrementVariation);
           scoreRef.current = props.score;
+          break;
         }
       }
     }
