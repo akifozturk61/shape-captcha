@@ -110,6 +110,8 @@ class Quadrilateral extends Shape {
 
   getDistanceToCentroid(point: Point) {
     const centroid = this.getCentroid();
+    console.log("X dist:", point.getX() - centroid.getX());
+    console.log("Y dist:", point.getY() - centroid.getY());
     return Math.floor(
       Math.sqrt(
         Math.pow(point.getX() - centroid.getX(), 2) +

@@ -35,6 +35,7 @@ const Canvas = (props: CanvasProps) => {
     for (const shape of shapesRef.current) {
       if (shape.isPointInsideShape(new Point(x, y))) {
         //TODO remove hardcarded shape in first position of array find another way to identify it
+
         if (shape == shapesRef.current[0]) {
           props.incrementscore(scoreIncrementChosen);
           scoreRef.current = props.score;

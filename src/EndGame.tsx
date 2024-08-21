@@ -26,7 +26,7 @@ function EndGame() {
           time: time,
           shapeData: followingShape,
           shapeDifficulty: shape.shapeDifficulty,
-          label: "human",
+          label: "bot",
         },
       ]);
       if (error) {

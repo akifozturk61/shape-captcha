@@ -1,9 +1,10 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
 import Canvas from "./Canvas";
+import "./index.css";
 import Point from "./Point";
 import Quadrilateral from "./ShapeQuadrilateral";
 import Rectangle from "./ShapeRectangle";
-import "./index.css";
 
 function App() {
   const finalScore = 5000;
@@ -18,6 +19,17 @@ function App() {
 
   const isMobile = () =>
     /Mobile|Android|Tablet|iPad|iPhone/i.test(navigator.userAgent);
+
+  const handleWriteToFile = async (data: string) => {
+    try {
+      const response = await axios.post("http://localhost:3001/write-to-file", {
+        data,
+      });
+      console.log("Resp data", response.data);
+    } catch (error) {
+      console.error("Error writing to file", error);
+    }
+  };
 
   useEffect(() => {
     if (finalScore >= 2000) {
@@ -47,8 +59,8 @@ function App() {
     return () => cancelAnimationFrame(frame);
   }, [seed]);
 
-  const displayTimeInSeconds = (time: number) =>
-    (time / 1000).toFixed(2) + " s";
+  // const displayTimeInSeconds = (time: number) =>
+  //   (time / 1000).toFixed(2) + " s";
 
   useEffect(() => {
     const handleResize = () => {
@@ -90,6 +102,10 @@ function App() {
     shapes.forEach((shape) => {
       shape.setPath(shape.genRanPath(100, canvasSize.width, canvasSize.height));
     });
+    // console.log(JSON.stringify(shapes[0].getPath()));
+    const chosenPath = JSON.stringify(shapes[0].getPath());
+
+    handleWriteToFile(chosenPath);
 
     //Create obstacle
     const canvasArea = canvasSize.width * canvasSize.height;
@@ -120,7 +136,7 @@ function App() {
 
   return (
     <div className="flex flex-col justify-center items-center">
-      {isMobile() ? (
+      {/* {isMobile() ? (
         <h1 className="mt-10 text-2xl font-extrabold">
           Follow the right shape by tracking it with your finger!
         </h1>
@@ -128,11 +144,11 @@ function App() {
         <h1 className="mt-10 text-2xl font-extrabold">
           Follow the right shape by tracking it with the mouse pointer!
         </h1>
-      )}
-      {/* <h2 className="mt-5 text-l font-bold">Score: {score} </h2> */}
-      <h2 className="mt-5 text-l font-bold">
+      )} */}
+      <h2 className="mt-5 text-l font-bold">Score: {score} </h2>
+      {/* <h2 className="mt-5 text-l font-bold">
         Timer: {displayTimeInSeconds(time)}
-      </h2>
+      </h2> */}
       <div
         className="border border-solid border-black mt-10 mb-10"
         style={{ width: canvasSize.width, height: canvasSize.height }}
