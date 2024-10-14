@@ -3,7 +3,10 @@ import { useNavigate } from "react-router-dom";
 // import supabase from "./config/supabaseClient";
 
 function EndGame() {
-  const [responseText, setResponseText] = useState("");
+  const [nn_prediction, setNNPrediction] = useState("");
+  const [dt_prediction, setDTPrediction] = useState("");
+  const [svm_prediction, setSVMPrediction] = useState("");
+
   const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
@@ -58,7 +61,11 @@ function EndGame() {
           console.error("Error sending data: ", response.statusText);
         } else {
           const data = await response.text();
-          setResponseText(data);
+          const predictions = JSON.parse(data);
+
+          setDTPrediction(predictions.prediction_dt_label);
+          setNNPrediction(predictions.prediction_nn_label);
+          setSVMPrediction(predictions.prediction_svm_label);
           console.log("Data received successfully:", data);
         }
       } catch (error) {
@@ -77,6 +84,12 @@ function EndGame() {
 
   const boxStyles = "border-2 p-4 mb-6 rounded-lg shadow-md bg-white";
   const boxTitles = "text-xl font-extrabold mb-4 text-center";
+  const predictions = [
+    { model: "Decision Tree", prediction: dt_prediction },
+    { model: "Neural Network", prediction: nn_prediction },
+    { model: "One-class SVM", prediction: svm_prediction },
+  ];
+  console.log(predictions);
 
   return (
     <div>
@@ -93,14 +106,19 @@ function EndGame() {
                 <p className="text-xl mb-4 text-center">
                   We are currently processing your data. Please wait...
                 </p>
-              ) : responseText === "human" ? (
-                <p className="text-xl mb-4 text-center">
-                  You have been identified as a <strong>human</strong>
-                </p>
               ) : (
-                <p className="text-xl mb-4 text-center">
-                  You have been identified as a <strong>bot</strong>
-                </p>
+                predictions.map(({ model, prediction }, index) => (
+                  <p key={index} className="text-xl mb-4 text-center">
+                    {model} predicted:{" "}
+                    {prediction === "human" ? (
+                      <strong>human</strong>
+                    ) : prediction === "bot" ? (
+                      <strong>bot</strong>
+                    ) : (
+                      "error"
+                    )}
+                  </p>
+                ))
               )}
 
               <p className="mb-2 bg-yellow-200 text-lg p-4 border-2 border-black rounded-md font-bold text-center">
